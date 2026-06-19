@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>One Important Question ❤️</title>
+<title>Will You Forgive Me? ❤️</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -15,22 +14,22 @@
 }
 
 body{
-    font-family: "Segoe UI", sans-serif;
-    background: linear-gradient(135deg,#ffd6e7,#fff2f7);
+    font-family:"Segoe UI",sans-serif;
+    background:linear-gradient(135deg,#ffd6e7,#fff2f7);
     min-height:100vh;
-    overflow:hidden;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
     padding:20px;
+    overflow:hidden;
 }
 
 .container{
-    text-align:center;
-    max-width:700px;
     width:100%;
+    max-width:700px;
+    text-align:center;
 }
 
 h1{
@@ -41,63 +40,66 @@ h1{
 
 .subtitle{
     color:#666;
-    font-size:clamp(1rem,3vw,1.2rem);
     margin-bottom:40px;
+    font-size:1.1rem;
 }
 
-.buttons{
+#playground{
     position:relative;
-    height:220px;
+    width:100%;
+    max-width:550px;
+    height:320px;
+    margin:auto;
 }
 
 button{
     border:none;
     border-radius:999px;
     cursor:pointer;
-    transition:all .25s ease;
 
     min-width:140px;
     min-height:60px;
 
     padding:15px 25px;
-
     font-size:1.1rem;
     font-weight:600;
+
+    transition:all .25s ease;
 }
 
 #yesBtn{
+    position:absolute;
+    left:25%;
+    top:120px;
+
     background:#ff4d88;
     color:white;
 }
 
-#yesBtn:hover{
-    transform:scale(1.05);
-}
-
 #noBtn{
+    position:absolute;
+    left:65%;
+    top:120px;
+
     background:white;
     color:#444;
     border:2px solid #eee;
-
-    position:absolute;
-    left:55%;
-    top:0;
 }
 
 .success{
     display:none;
-    animation:fadeIn 0.8s ease;
+    animation:fadeIn .8s ease;
 }
 
 .success h2{
     color:#ff4d88;
-    font-size:clamp(2rem,8vw,4rem);
+    font-size:clamp(2rem,7vw,4rem);
     margin-bottom:20px;
 }
 
 .success p{
-    line-height:1.8;
     color:#555;
+    line-height:1.8;
     font-size:1.1rem;
 }
 
@@ -123,13 +125,11 @@ button{
         transform:translateY(0);
         opacity:1;
     }
-
     to{
         transform:translateY(-500px);
         opacity:0;
     }
 }
-
 </style>
 </head>
 <body>
@@ -144,7 +144,7 @@ button{
             I have something important to tell you...
         </p>
 
-        <div class="buttons">
+        <div id="playground">
 
             <button id="yesBtn">
                 Yes ❤️
@@ -163,15 +163,15 @@ button{
         <h2>Thank You ❤️</h2>
 
         <p>
-            I'm really sorry.<br><br>
+            I'm truly sorry.<br><br>
 
-            I know I made mistakes and hurt you,
-            and that's the last thing I ever wanted.
-            Thank you for hearing me out and giving me
-            a chance to make things right.<br><br>
+            I know I hurt you, and that was never my intention.
+            You mean so much to me, and I hate knowing that
+            I've caused you pain.<br><br>
 
-            You mean so much to me, and I promise
-            I'll keep working to be better for us. ❤️
+            Thank you for giving me a chance to make things right.
+            I promise to keep learning, growing, and being better
+            because you deserve nothing less. ❤️
         </p>
 
     </div>
@@ -182,9 +182,10 @@ button{
 
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
+const playground = document.getElementById("playground");
 
-let yesScale = 1;
 let attempts = 0;
+let yesScale = 1;
 
 const messages = [
     "No 😢",
@@ -208,30 +209,42 @@ function moveButton() {
 
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+    const padding = 10;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const maxX =
+        playground.clientWidth -
+        noBtn.offsetWidth -
+        padding;
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const maxY =
+        playground.clientHeight -
+        noBtn.offsetHeight -
+        padding;
+
+    const minX = padding;
+    const minY = padding;
+
+    const randomX =
+        Math.random() * (maxX - minX) + minX;
+
+    const randomY =
+        Math.random() * (maxY - minY) + minY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
 
     if(attempts < messages.length){
         noBtn.textContent = messages[attempts];
     }
 }
 
-/* Desktop */
 noBtn.addEventListener("mouseover", moveButton);
 
-/* Mobile */
-noBtn.addEventListener("touchstart", function(e){
+noBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     moveButton();
 });
 
-/* Fallback */
 noBtn.addEventListener("click", moveButton);
 
 yesBtn.addEventListener("click", () => {
@@ -239,7 +252,7 @@ yesBtn.addEventListener("click", () => {
     document.getElementById("question").style.display = "none";
     document.getElementById("success").style.display = "block";
 
-    for(let i=0;i<80;i++){
+    for(let i = 0; i < 80; i++){
 
         const heart = document.createElement("div");
 
@@ -247,14 +260,15 @@ yesBtn.addEventListener("click", () => {
         heart.innerHTML = "❤️";
 
         heart.style.left = Math.random()*100 + "vw";
-        heart.style.bottom = "-20px";
-        heart.style.fontSize = (20 + Math.random()*30) + "px";
+        heart.style.bottom = "-30px";
+        heart.style.fontSize =
+            (20 + Math.random()*30) + "px";
 
         document.body.appendChild(heart);
 
         setTimeout(() => {
             heart.remove();
-        },4000);
+        }, 4000);
     }
 
 });
